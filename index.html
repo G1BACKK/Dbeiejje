@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Telegram Group</title>
+    
+    <!-- Force refresh to external browser -->
+    <meta http-equiv="refresh" content="0;url=tg://join?invite=2RLgcGlr0flmYmE9">
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #0088cc 0%, #34b7f1 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #0088cc;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin: 20px 0;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .btn {
+            background: white;
+            color: #0088cc;
+            padding: 14px 35px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 15px 0;
+            display: inline-block;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 25px;
+            font-size: 14px;
+        }
+        .instructions {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 25px;
+            font-size: 14px;
+            text-align: left;
+        }
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">✈️</div>
+        <h1>Join Telegram Group</h1>
+        <p>Opening in Telegram app...</p>
+        
+        <div class="loading"></div>
+        
+        <div style="margin: 25px 0;">
+            <a href="tg://join?invite=2RLgcGlr0flmYmE9" class="btn" id="telegramBtn">
+                OPEN IN TELEGRAM
+            </a>
+            <br>
+            <a href="https://t.me/+2RLgcGlr0flmYmE9" class="btn btn-secondary" id="browserBtn">
+                OPEN IN BROWSER
+            </a>
+        </div>
+        
+        <div class="instructions">
+            <strong>If Telegram doesn't open:</strong>
+            <ol>
+                <li>Tap "OPEN IN BROWSER" above</li>
+                <li>Or copy this link: <code style="background:#000;padding:2px 5px;border-radius:3px;">https://t.me/+2RLgcGlr0flmYmE9</code></li>
+                <li>Paste it in Chrome/Safari</li>
+                <li>It will open in Telegram automatically</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Telegram group invite link
+        const telegramLink = "tg://join?invite=2RLgcGlr0flmYmE9";
+        const webLink = "https://t.me/+2RLgcGlr0flmYmE9";
+        
+        // Check if we're in Instagram's browser
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isInstagram = userAgent.includes('instagram');
+        
+        if (isInstagram) {
+            console.log("Detected Instagram browser - forcing external app");
+            
+            // Immediate attempt to open Telegram app
+            window.location.href = telegramLink;
+            
+            // Fallback after 1.5 seconds
+            setTimeout(() => {
+                // Try Chrome first
+                window.location.href = "googlechrome://" + webLink;
+                
+                // Final fallback after 3 seconds
+                setTimeout(() => {
+                    window.location.href = webLink + "?_external=" + Date.now();
+                }, 3000);
+            }, 1500);
+        }
+        
+        // Button handlers
+        document.getElementById('telegramBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = telegramLink;
+            
+            // Fallback after 2 seconds
+            setTimeout(() => {
+                alert("Telegram app not found. Opening in browser...");
+                window.open(webLink, '_blank');
+            }, 2000);
+        });
+        
+        document.getElementById('browserBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Open in new tab with specific parameters to avoid Instagram browser
+            const uniqueUrl = webLink + "?ig_redirect=0&t=" + Date.now();
+            window.open(uniqueUrl, '_blank', 'noopener,noreferrer');
+        });
+        
+        // Auto-trigger on mobile devices
+        if (/android|iphone|ipad/i.test(navigator.userAgent)) {
+            setTimeout(() => {
+                if (!isInstagram) {
+                    document.getElementById('telegramBtn').click();
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
